@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.13
 
 EXPOSE 2022
 
@@ -10,4 +10,3 @@ COPY config/sshd_config /etc/ssh/sshd_config
 COPY bin/* /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/setup_environment"]
-
