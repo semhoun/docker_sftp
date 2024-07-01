@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # this file directly manipulates /etc/passwd.
 # it makes the assumption that shadow passwords are _not_ used

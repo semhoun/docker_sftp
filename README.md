@@ -1,17 +1,18 @@
-# Minimal SFTP Server within a Docker container
+![License](https://img.shields.io/github/license/semhoun/docker_sftp) ![OpenIssues](https://img.shields.io/github/issues-raw/semhoun/docker_sftp) ![Version](https://img.shields.io/github/v/tag/semhoun/docker_sftp) ![Docker Size](https://img.shields.io/docker/image-size/semhoun/sftp) ![Docker Pull](https://img.shields.io/docker/pulls/semhoun/sftp)
 
-This is an Alpine based image, which installs the very minimum needed to run an
+![OpenSSH logo](https://raw.githubusercontent.com/semhoun/docker_sftp/master/openssh.png "Powered by OpenSSH")
+
+# SFTP Server within a Docker container
+
+This is an Debian based image, which installs the very minimum needed to run an
 SFTP server.
-
-It was originally created as an SFTP endpoint for 
-[Duplicacy](http://duplicacy.com/).
 
 
 ## General Design
 
 Each SFTP user gets a user account within the container. No account within the
 container gets any passwords set, so the only ways to access the container are
-using `docker exec`, or via the SSH server listening on port 2022.
+using `docker exec`, or via the SSH server listening on port 22.
 
 The SSH server is configured to require public key authentication for all
 logins, and all logins are restricted to sftp only. Additionally, each login
@@ -22,27 +23,32 @@ Basically there's multiple layers of protection to make exposing this as an
 Internet facing service as safe as possible. Usual disclaimers apply about
 taking responsibility for your own security.
 
-
 ## Using this container
 
-Build the container with
-
+### Using Docker Cli
 ```
-docker build -t caelor/sftp-server .
-```
-
-Run the container with
-
-```
-docker run -d --name sftp-server -v /var/sftp-server:/data caelor/sftp-server
+docker run -d --name sftp -p 2222:22 -v /var/sftp:/data semhoun/sftp
 ```
 
-Manage users by creating a file in `/var/sftp-server/users/<username>.pub` -
+### Using Docker Compose
+```
+services:
+  sftp:
+    container_name: sftp
+    ports:
+      - 2222:22
+    volumes:
+      - /var/sftp:/data
+    image: semhoun/sftp
+```
+
+### Users managment
+Manage users by creating a file in `/var/sftp/users/<username>.pub` -
 the file should contain a public key per line (e.g. exactly like an 
 `authorized_keys` file). The owner UID of the file will be the uid of the user
 within the container. Files owned by root will be ignored.
 
-The files are polled for changes roughly every 20 seconds.
+The files are polled for changes roughly every 5 minutes.
 
 The SFTP files are created within `/data/userdata/<username>/sftp`
 
@@ -84,5 +90,4 @@ instructed to use as the sftp-root. It's owned by the uid allocated to the
 user, with a group of 1001 ("sftpusers" internally).
 
 This is where the data that the user actually uploads ends up.
-
 

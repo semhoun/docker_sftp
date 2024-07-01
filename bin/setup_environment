@@ -36,10 +36,7 @@ fi
 echo "Starting container, running users refresh..."
 /usr/local/bin/apply_changes
 
-# start up
-#/usr/bin/supervisord -c /etc/supervisord.conf
 echo "Starting SSH daemon and config-watcher..."
 /usr/sbin/sshd -D -f /etc/ssh/sshd_config &
 
 /usr/local/bin/maintain_logins
-

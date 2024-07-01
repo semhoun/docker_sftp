@@ -8,6 +8,6 @@ do
     /usr/local/bin/apply_changes
   fi
 
-  # poll every minute
-  sleep 20
+  # poll every 5 minutes
+  sleep 300
 done
