@@ -1,5 +1,5 @@
 Protocol 2
-Port 2022
+Port 22
 HostKey /data/server/ssh_host_ed25519_key
 HostKey /data/server/ssh_host_rsa_key
 
