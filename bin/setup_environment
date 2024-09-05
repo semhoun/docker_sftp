@@ -37,6 +37,6 @@ echo "Starting container, running users refresh..."
 /usr/local/bin/apply_changes
 
 echo "Starting SSH daemon and config-watcher..."
-/usr/sbin/sshd -D -f /etc/ssh/sshd_config &
+/usr/sbin/sshd -D -f /etc/ssh/sshd_config -e &
 
 /usr/local/bin/maintain_logins
